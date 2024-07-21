@@ -1,7 +1,6 @@
-from fastapi import FastAPI, Depends
-from pydantic import BaseModel
-from typing import Optional, Annotated
+from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from router import router as tasks_router
 from database import create_tables
 
 
@@ -14,30 +13,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(tasks_router)
 
-
-class STaskAdd(BaseModel):
-    name: str
-    description: Optional[str] = None
-
-
-class STaskGet(STaskAdd):
-    id: int
-
-
-tasks = []
 
 @app.get("/")
 async def home():
     return {"data": "First Page!"}
 
-@app.get("/tasks")
-async def get_tasks():
-    task = Task(name="Изучить FastAPI")
-    return {"data": task}
-
-@app.post("/task")
-async def add_task(task: Annotated[STaskAdd, Depends()]):
-    tasks.append(task)
-    return {"ok": True}
 
