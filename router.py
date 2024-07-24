@@ -1,5 +1,3 @@
-
-
 from typing import Annotated
 from fastapi import APIRouter, Depends
 
@@ -14,16 +12,18 @@ router = APIRouter(
 
 @router.post("")
 async def add_task(task: Annotated[STaskAdd, Depends()]):
-    
+    """Добавить задачу в базу данных"""
     task_id = await TaskRepository.add_one(task)
     return {"ok": True, "task_id": task_id}
 
 @router.get("/profile")
 async def get_profile():
+    """Получить профайл пользователя"""
     return "todo profile page"
 
 @router.get("")
 async def get_tasks():
+    """Получить все задание из базы данных"""
     tasks = await TaskRepository.get_all()
     return {"tasks": tasks}
 
