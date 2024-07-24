@@ -18,6 +18,9 @@ async def add_task(task: Annotated[STaskAdd, Depends()]):
     task_id = await TaskRepository.add_one(task)
     return {"ok": True, "task_id": task_id}
 
+@router.get("/profile")
+async def get_profile():
+    return "todo profile page"
 
 @router.get("")
 async def get_tasks():
