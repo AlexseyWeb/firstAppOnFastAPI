@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from repository import TaskRepository
-from schemas import STaskAdd
+from schemas import STaskAdd, User
 
 
 router = APIRouter(
@@ -26,4 +26,10 @@ async def get_tasks():
     """Получить все задание из базы данных"""
     tasks = await TaskRepository.get_all()
     return {"tasks": tasks}
+
+
+@router.post("/user")
+async def add_user(user: User):
+    return {"info": user}
+
 

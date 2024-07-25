@@ -8,3 +8,9 @@ class STaskAdd(BaseModel):
 
 class STaskGet(STaskAdd):
     id: int
+
+class User(BaseModel):
+    name: str
+    family: str
+    sallary: Optional[float] = None
+    job: str
