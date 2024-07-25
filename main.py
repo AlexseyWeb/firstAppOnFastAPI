@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from contextlib import asynccontextmanager
 from router import router as tasks_router
 from database import create_tables
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 
 @asynccontextmanager
@@ -14,11 +16,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, title="Задачи")
 app.include_router(tasks_router)
+templates = Jinja2Templates(directory="templates")
 
 
-@app.get("/")
-async def home():
+@app.get("/", response_class=HTMLResponse)
+async def home(request:Request):
     """Стартовая страница"""
-    return {"data": "First Page!"}
+    return templates.TemplateResponse(request=request, name="index.html")
 
 
