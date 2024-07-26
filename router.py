@@ -1,13 +1,13 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
-
-from repository import TaskRepository
-from schemas import STaskAdd, User
+from repository import TaskRepository, UsersRepository
+from schemas import STaskAdd, SUser
 
 
 router = APIRouter(
 	prefix="/tasks",
 	)
+
 
 
 @router.post("")
@@ -29,7 +29,16 @@ async def get_tasks():
 
 
 @router.post("/user")
-async def add_user(user: User):
-    return {"info": user}
+async def add_user(user: Annotated[SUser, Depends()]):
+    """Добавить пользователя в базу данных"""
+    user_id = await UsersRepository.add_one(user)
+    return {"ok": True, "user_id": user_id}
+
+@router.get("/user")
+async def get_user():
+    users = await UsersRepository.get_all()
+    return {"users": users}
+
+
 
 

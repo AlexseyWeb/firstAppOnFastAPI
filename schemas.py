@@ -9,7 +9,7 @@ class STaskAdd(BaseModel):
 class STaskGet(STaskAdd):
     id: int
 
-class User(BaseModel):
+class SUser(BaseModel):
     name: str
     family: str
     sallary: Optional[float] = None
