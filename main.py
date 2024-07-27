@@ -24,4 +24,7 @@ async def home(request:Request):
     """Стартовая страница"""
     return templates.TemplateResponse(request=request, name="index.html")
 
+@app.get("/about_me/", response_class=HTMLResponse)
+async def get_about_me(request: Request):
+    return templates.TemplateResponse(request=request, name="about_me.html")
 
