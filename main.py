@@ -35,3 +35,6 @@ async def get_about_me(request: Request):
 async def login(token: Annotated[str, Depends(oauth2_scheme)]):
     return {"token" : token}
 
+@app.get("/secret", response_class=HTMLResponse)
+async def get_secret_page(request: Request):
+    return templates.TemplateResponse(request=request, name="secret.html")
