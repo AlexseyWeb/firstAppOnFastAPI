@@ -41,7 +41,7 @@ async def get_about_me(request: Request):
 async def get_who(
     creds: HTTPBasicCredentials = Depends(basic)) -> dict:
     if(creds.username == secret_user and creds.password == secret_password):
-        return {"username": creds.username, "password": creds.password}
+        return {"username": creds.username, "password": creds.password, "WOW": "You cool a hacker!!!"}
     raise HTTPException(status_code=401, detail="Hey!")
 
 @app.get("/login")
