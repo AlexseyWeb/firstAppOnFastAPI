@@ -1,13 +1,20 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from repository import TaskRepository, UsersRepository
 from schemas import STaskAdd, SUser
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 
 router = APIRouter(
 	prefix="/tasks",
 	)
 
+templates = Jinja2Templates(directory="templates")
+
+@router.get("/info", response_class=HTMLResponse)
+async def get_info(request: Request):
+    return templates.TemplateResponse(request=request, name="info.html") 
 
 
 @router.post("")
