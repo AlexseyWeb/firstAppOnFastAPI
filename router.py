@@ -1,20 +1,12 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from repository import TaskRepository, UsersRepository
 from schemas import STaskAdd, SUser
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 
 
 router = APIRouter(
 	prefix="/tasks",
 	)
-
-templates = Jinja2Templates(directory="templates")
-
-@router.get("/info", response_class=HTMLResponse)
-async def get_info(request: Request):
-    return templates.TemplateResponse(request=request, name="info.html") 
 
 
 @router.post("")
@@ -39,7 +31,8 @@ async def get_tasks():
 async def add_user(user: Annotated[SUser, Depends()]):
     """Добавить пользователя в базу данных"""
     user_id = await UsersRepository.add_one(user)
-    return {"ok": True, "user_id": user_id}
+    return "User add complete"
+
 
 @router.get("/user")
 async def get_user():
