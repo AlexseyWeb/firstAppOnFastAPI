@@ -2,10 +2,11 @@ from fastapi import FastAPI, Request, Depends, HTTPException
 from contextlib import asynccontextmanager
 from router import router as tasks_router
 from database import create_tables
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer, HTTPBasic, HTTPBasicCredentials
 from typing import Annotated
+
 
 
 @asynccontextmanager
@@ -32,6 +33,10 @@ basic: HTTPBasicCredentials = HTTPBasic()
 async def home(request:Request):
     """Стартовая страница"""
     return templates.TemplateResponse(request=request, name="index.html")
+
+@app.get("/file")
+def get_file():
+    return FileResponse("python_book.pdf")
 
 @app.get("/about_me/", response_class=HTMLResponse)
 async def get_about_me(request: Request):
